@@ -14,5 +14,8 @@
   "type": "module",
   "workspaces": [
     "src/final_frontend"
-  ]
+  ],
+  "dependencies": {
+    "axios": "^1.10.0"
+  }
 }
