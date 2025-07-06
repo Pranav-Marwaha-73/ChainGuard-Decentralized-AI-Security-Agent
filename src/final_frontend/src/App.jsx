@@ -1,57 +1,107 @@
-import React, { useEffect, useState } from "react";
-import { initAuth, logout } from "./auth";
-import axios from "axios";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-  Legend,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Shield, Database, AlertTriangle, CheckCircle } from 'lucide-react';
+import Header from './components/Header';
+import StatsCard from './components/StatsCard';
+import PredictionForm from './components/PredictionForm';
+import ActivityLog from './components/ActivityLog';
+import Charts from './components/Charts';
+import LoginModal from './components/LoginModal';
+import { initAuth, login, logout, isAuthenticated, getPrincipal } from './auth';
+import './styles/global.css';
+import './App.css';
 
 const App = () => {
-  const [action, setAction] = useState("transfer");
-  const [value, setValue] = useState(100);
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState('');
   const [logs, setLogs] = useState([]);
   const [stats, setStats] = useState({ Safe: 0, Malicious: 0 });
   const [darkMode, setDarkMode] = useState(false);
-  const [endpoint, setEndpoint] = useState("https://f07e-49-43-91-234.ngrok-free.app/predict/");
+  const [endpoint, setEndpoint] = useState('https://2b71-49-43-91-234.ngrok-free.app/predict/');
   const [userPrincipal, setUserPrincipal] = useState(null);
   const [authClient, setAuthClient] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [loginError, setLoginError] = useState('');
 
   useEffect(() => {
-    const authenticate = async () => {
-      const client = await initAuth();
-      setAuthClient(client);
-      const identity = client.getIdentity();
-      setUserPrincipal(identity.getPrincipal().toText());
+    const initializeAuth = async () => {
+      try {
+        const client = await initAuth();
+        setAuthClient(client);
+        
+        if (isAuthenticated()) {
+          const principal = getPrincipal();
+          setUserPrincipal(principal);
+        }
+      } catch (error) {
+        console.error('Authentication initialization failed:', error);
+        setLoginError('Failed to initialize authentication');
+      }
     };
-    authenticate();
+
+    initializeAuth();
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    // Apply dark mode to document root element
+    const root = document.documentElement;
+    if (darkMode) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+  }, [darkMode]);
+
+  const handleLogin = async () => {
+    setLoginLoading(true);
+    setLoginError('');
+    
+    try {
+      await login();
+      const principal = getPrincipal();
+      setUserPrincipal(principal);
+      setShowLoginModal(false);
+    } catch (error) {
+      console.error('Login failed:', error);
+      setLoginError('Login failed. Please try again.');
+    } finally {
+      setLoginLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setUserPrincipal(null);
+      setAuthClient(null);
+      // Clear any user-specific data
+      setLogs([]);
+      setStats({ Safe: 0, Malicious: 0 });
+      setResult('');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
+  const handlePrediction = async (action, value) => {
     if (!userPrincipal) {
-      alert("Please log in to make predictions.");
+      setShowLoginModal(true);
       return;
     }
+
+    setIsLoading(true);
     try {
       const response = await axios.post(
         endpoint,
         {
           action,
-          value: parseFloat(value),
+          value: parseFloat(value.toString()),
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true',
           },
         }
       );
@@ -66,6 +116,7 @@ const App = () => {
           value,
           result: prediction,
           user: userPrincipal,
+          timestamp: new Date(),
         };
         setLogs([newLog, ...logs]);
 
@@ -74,155 +125,118 @@ const App = () => {
           [prediction]: prev[prediction] + 1,
         }));
       } else {
-        setResult("⚠️ No prediction returned.");
+        setResult('⚠️ No prediction returned.');
       }
     } catch (error) {
-      setResult("❌ Error: " + error.message);
+      console.error('Prediction error:', error);
+      setResult('❌ Error: Unable to connect to the security service.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const chartData = [
-    { name: "Safe", count: stats.Safe },
-    { name: "Malicious", count: stats.Malicious },
-  ];
-  const pieColors = ["#28a745", "#dc3545"];
-
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.body.classList.toggle("dark", !darkMode);
+    setDarkMode(prevMode => !prevMode);
   };
 
+  const chartData = [
+    { name: 'Safe', count: stats.Safe },
+    { name: 'Malicious', count: stats.Malicious },
+  ];
+
+  const totalTransactions = stats.Safe + stats.Malicious;
+  const safePercentage = totalTransactions > 0 ? Math.round((stats.Safe / totalTransactions) * 100) : 0;
+
   return (
-    <div className={`app ${darkMode ? "dark" : ""}`}>
-      <div className="header">
-        <h1>ChainGuard AI Detector</h1>
+    <div className="app">
+      <Header
+        userPrincipal={userPrincipal}
+        darkMode={darkMode}
+        onToggleDarkMode={toggleDarkMode}
+        onLogout={handleLogout}
+        onLogin={() => setShowLoginModal(true)}
+      />
 
-        <div className="auth-info">
-          {userPrincipal ? (
-            <>
-              <p>👤 Logged in as: {userPrincipal}</p>
-              <button onClick={() => logout(authClient)}>Logout</button>
-            </>
-          ) : (
-            <p>Connecting to Internet Identity...</p>
-          )}
+      <main className="main-content">
+        {/* Hero Section */}
+        <div className="hero-section">
+          <div className="hero-card">
+            <div className="hero-content">
+              <div className="hero-icon">
+                <Shield className="icon-xl" />
+              </div>
+              <div className="hero-text">
+                <h1 className="hero-title">ChainGuard AI Security Dashboard</h1>
+                <p className="hero-subtitle">
+                  Real-time blockchain transaction analysis and threat detection
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label style={{ marginRight: "10px" }}>DApp Endpoint:</label>
-          <select value={endpoint} onChange={(e) => setEndpoint(e.target.value)}>
-            <option value="https://f07e-49-43-91-234.ngrok-free.app/predict/">DApp #1</option>
-            <option value="https://example-dapp2.ngrok-free.app/predict/">DApp #2</option>
-            <option value="https://example-dapp3.ngrok-free.app/predict/">DApp #3</option>
-          </select>
-        </div>
-
-        <button className="toggle-btn" onClick={toggleDarkMode}>
-          {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
-        </button>
-      </div>
-
-      <div className="stats">
-        <div className="card">Safe: {stats.Safe}</div>
-        <div className="card">Malicious: {stats.Malicious}</div>
-      </div>
-
-      <ResponsiveContainer width="100%" height={250}>
-        <BarChart data={chartData} margin={{ top: 20, right: 30, bottom: 5, left: 0 }}>
-          <defs>
-            <filter id="shadow" height="200%">
-              <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#000" floodOpacity="0.2" />
-            </filter>
-          </defs>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis allowDecimals={false} />
-          <Tooltip />
-          <Legend />
-          <Bar
-            dataKey="count"
-            fill="#007bff"
-            name="Transaction Count"
-            radius={[10, 10, 0, 0]}
-            animationDuration={800}
-            filter="url(#shadow)"
+        {/* Stats Grid */}
+        <div className="stats-grid">
+          <StatsCard
+            title="Total Analyzed"
+            value={totalTransactions}
+            icon={Database}
+            color="blue"
           />
-        </BarChart>
-      </ResponsiveContainer>
+          <StatsCard
+            title="Safe Transactions"
+            value={stats.Safe}
+            icon={CheckCircle}
+            color="green"
+            trend={safePercentage}
+          />
+          <StatsCard
+            title="Malicious Blocked"
+            value={stats.Malicious}
+            icon={AlertTriangle}
+            color="red"
+          />
+          <StatsCard
+            title="Protection Rate"
+            value={safePercentage}
+            icon={Shield}
+            color="orange"
+          />
+        </div>
 
-      <ResponsiveContainer width="100%" height={250}>
-        <PieChart>
-          <defs>
-            <filter id="pieShadow">
-              <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#000" floodOpacity="0.2" />
-            </filter>
-          </defs>
-          <Pie
-            data={chartData}
-            dataKey="count"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={80}
-            label
-            isAnimationActive={true}
-            animationDuration={1000}
-          >
-            {chartData.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={pieColors[index % pieColors.length]}
-                filter="url(#pieShadow)"
-              />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
-      </ResponsiveContainer>
+        {/* Charts Section */}
+        <div className="charts-section">
+          <Charts data={chartData} />
+        </div>
 
-      <form onSubmit={handleSubmit}>
-        <label>Action Type:</label>
-        <input value={action} onChange={(e) => setAction(e.target.value)} />
+        {/* Prediction Form and Activity Log */}
+        <div className="content-grid">
+          <div className="form-section">
+            <PredictionForm
+              onSubmit={handlePrediction}
+              isLoading={isLoading}
+              result={result}
+              endpoint={endpoint}
+              onEndpointChange={setEndpoint}
+            />
+          </div>
+          
+          <div className="log-section">
+            <ActivityLog logs={logs} />
+          </div>
+        </div>
+      </main>
 
-        <label>Value:</label>
-        <input
-          type="number"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
-
-        <button type="submit">Predict</button>
-      </form>
-
-      {result && (
-        <p className="result">
-          Prediction Result: <strong>{result}</strong>
-        </p>
-      )}
-
-      <table className="log-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Action</th>
-            <th>Value</th>
-            <th>Result</th>
-            <th>User</th>
-          </tr>
-        </thead>
-        <tbody>
-          {logs.map((log) => (
-            <tr key={log.id}>
-              <td>{log.id}</td>
-              <td>{log.action}</td>
-              <td>{log.value}</td>
-              <td>{log.result}</td>
-              <td>{log.user}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => {
+          setShowLoginModal(false);
+          setLoginError('');
+        }}
+        onLogin={handleLogin}
+        isLoading={loginLoading}
+        error={loginError}
+      />
     </div>
   );
 };

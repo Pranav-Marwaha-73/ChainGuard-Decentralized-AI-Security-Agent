@@ -1,0 +1,267 @@
+.header {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.dark .header {
+  background-color: rgba(17, 24, 39, 0.8);
+  border-bottom-color: #374151;
+}
+
+.header-container {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .header-container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-container {
+    padding: 0 2rem;
+  }
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-icon-container {
+  position: relative;
+}
+
+.brand-icon {
+  height: 2rem;
+  width: 2rem;
+  color: #2563eb;
+}
+
+.dark .brand-icon {
+  color: #60a5fa;
+}
+
+.status-indicator {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: #22c55e;
+  border-radius: 50%;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.brand-title {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.dark .brand-title {
+  color: white;
+}
+
+.brand-subtitle {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #6b7280;
+}
+
+.dark .brand-subtitle {
+  color: #9ca3af;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f0fdf4;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+}
+
+.dark .connection-status {
+  background-color: rgba(34, 197, 94, 0.2);
+}
+
+.status-text {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: #15803d;
+}
+
+.dark .status-text {
+  color: #86efac;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f9fafb;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+}
+
+.dark .user-info {
+  background-color: #1f2937;
+}
+
+.user-principal {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: #374151;
+  max-width: 8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dark .user-principal {
+  color: #d1d5db;
+}
+
+.logout-button {
+  padding: 0.5rem;
+  color: #4b5563;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.logout-button:hover {
+  color: #dc2626;
+}
+
+.dark .logout-button {
+  color: #9ca3af;
+}
+
+.dark .logout-button:hover {
+  color: #f87171;
+}
+
+.login-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(to right, #2563eb, #9333ea);
+  color: white;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.login-button:hover {
+  background: linear-gradient(to right, #1d4ed8, #7c3aed);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.login-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #3b82f6, 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+.connecting-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #fefce8;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+}
+
+.dark .connecting-status {
+  background-color: rgba(133, 77, 14, 0.2);
+}
+
+.connecting-indicator {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #eab308;
+  border-radius: 50%;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.connecting-text {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: #a16207;
+}
+
+.dark .connecting-text {
+  color: #fde047;
+}
+
+.theme-toggle {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.theme-toggle:hover {
+  background-color: #e5e7eb;
+}
+
+.dark .theme-toggle {
+  background-color: #1f2937;
+  color: #9ca3af;
+}
+
+.dark .theme-toggle:hover {
+  background-color: #374151;
+}
+
+.icon-sm {
+  height: 1rem;
+  width: 1rem;
+}
+
+.icon-md {
+  height: 1.25rem;
+  width: 1.25rem;
+}
