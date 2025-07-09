@@ -1,3 +1,14 @@
+type LogEntry = record {
+id: nat64;
+timestamp: nat64;
+user: principal;
+action: text;
+value: float32;
+result: text;
+countermeasure: opt text;
+};
+
 service : {
-  "predict_transaction": (text, float32) -> (text) query;
-}
+"predict_transaction": (text, float32) -> (text);
+"get_logs": () -> (vec LogEntry) query;
+};

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Shield, Moon, Sun, LogOut, User, Activity, LogIn } from 'lucide-react';
+import { Shield, Moon, Sun, LogOut, User, Activity, LogIn, RefreshCw, Wifi, WifiOff } from 'lucide-react';
 import './Header.css';
 
-const Header = ({ userPrincipal, darkMode, onToggleDarkMode, onLogout, onLogin }) => {
+const Header = ({ userPrincipal, darkMode, onToggleDarkMode, onLogout, onLogin, backendConnected, onRefreshBackend }) => {
   return (
     <header className="header">
       <div className="header-container">
@@ -21,6 +21,28 @@ const Header = ({ userPrincipal, darkMode, onToggleDarkMode, onLogout, onLogin }
           </div>
 
           <div className="header-actions">
+            {/* Backend Connection Status */}
+            <div className="backend-status">
+              {backendConnected ? (
+                <div className="connection-status">
+                  <Wifi className="icon-sm" />
+                  <span className="status-text">Backend Online</span>
+                </div>
+              ) : (
+                <div className="connection-status-offline">
+                  <WifiOff className="icon-sm" />
+                  <span className="status-text-offline">Backend Offline</span>
+                  <button
+                    onClick={onRefreshBackend}
+                    className="refresh-button"
+                    title="Retry backend connection"
+                  >
+                    <RefreshCw className="icon-sm" />
+                  </button>
+                </div>
+              )}
+            </div>
+
             {userPrincipal ? (
               <div className="user-section">
                 <div className="connection-status">

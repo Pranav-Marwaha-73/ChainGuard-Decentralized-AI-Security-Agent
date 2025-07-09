@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Search, Filter, Download, Clock, User, Activity } from 'lucide-react';
+import { Search, Filter, Download, Clock, User, Activity, CheckCircle, Ban, AlertTriangle, RefreshCw } from 'lucide-react';
 import './ActivityLog.css';
 
-const ActivityLog = ({ logs }) => {
+const ActivityLog = ({ logs, backendConnected, onRefresh }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterResult, setFilterResult] = useState('all');
   const [showExportMenu, setShowExportMenu] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const filteredLogs = logs.filter(log => {
     const matchesSearch = log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -23,13 +24,50 @@ const ActivityLog = ({ logs }) => {
     return 'badge badge-gray';
   };
 
+  const getStatusBadge = (result) => {
+    if (result === 'Safe') {
+      return (
+        <span className="badge badge-green">
+          <CheckCircle className="icon-sm" />
+          Success
+        </span>
+      );
+    } else if (result === 'Malicious') {
+      return (
+        <span className="badge badge-red">
+          <Ban className="icon-sm" />
+          Blocked
+        </span>
+      );
+    }
+    return (
+      <span className="badge badge-gray">
+        <AlertTriangle className="icon-sm" />
+        Unknown
+      </span>
+    );
+  };
+
+  const handleRefresh = async () => {
+    if (!backendConnected || !onRefresh) return;
+    
+    setIsRefreshing(true);
+    try {
+      await onRefresh();
+    } catch (error) {
+      console.error('Failed to refresh logs:', error);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
   const exportToCSV = () => {
     if (filteredLogs.length === 0) {
       alert('No data to export');
       return;
     }
 
-    const headers = ['ID', 'Action', 'Value', 'Result', 'User', 'Timestamp'];
+    const headers = ['ID', 'Action', 'Value', 'Result', 'Status', 'User', 'Timestamp'];
     
     const csvRows = [
       headers.join(','),
@@ -38,6 +76,7 @@ const ActivityLog = ({ logs }) => {
         `"${log.action}"`,
         log.value,
         `"${log.result}"`,
+        `"${log.result === 'Safe' ? 'Success' : log.result === 'Malicious' ? 'Blocked' : 'Unknown'}"`,
         `"${log.user}"`,
         `"${log.timestamp?.toLocaleString() || 'Just now'}"`
       ].join(','))
@@ -68,12 +107,14 @@ const ActivityLog = ({ logs }) => {
     const exportData = {
       exportDate: new Date().toISOString(),
       totalRecords: filteredLogs.length,
+      backendConnected,
       filters: {
         searchTerm: searchTerm || 'none',
         resultFilter: filterResult
       },
       data: filteredLogs.map(log => ({
         ...log,
+        status: log.result === 'Safe' ? 'Success' : log.result === 'Malicious' ? 'Blocked' : 'Unknown',
         timestamp: log.timestamp?.toISOString() || new Date().toISOString()
       }))
     };
@@ -103,10 +144,24 @@ const ActivityLog = ({ logs }) => {
           </div>
           <h3 className="log-title">
             Activity Log
+            {backendConnected && <span className="ml-2 text-xs text-green-600 dark:text-green-400">(Backend Synced)</span>}
+            {!backendConnected && <span className="ml-2 text-xs text-yellow-600 dark:text-yellow-400">(Local Only)</span>}
           </h3>
         </div>
         
         <div className="export-section">
+          {backendConnected && (
+            <button
+              onClick={handleRefresh}
+              disabled={isRefreshing}
+              className="export-button mr-2"
+              title="Refresh from backend"
+            >
+              <RefreshCw className={`icon-sm ${isRefreshing ? 'animate-spin' : ''}`} />
+              <span>Refresh</span>
+            </button>
+          )}
+          
           <button
             onClick={() => setShowExportMenu(!showExportMenu)}
             disabled={filteredLogs.length === 0}
@@ -176,6 +231,7 @@ const ActivityLog = ({ logs }) => {
               <th className="table-cell">Action</th>
               <th className="table-cell">Value</th>
               <th className="table-cell">Result</th>
+              <th className="table-cell">Status</th>
               <th className="table-cell">User</th>
               <th className="table-cell">Time</th>
             </tr>
@@ -188,6 +244,9 @@ const ActivityLog = ({ logs }) => {
                 <td className="table-cell table-data table-data-muted">{log.value}</td>
                 <td className="table-cell table-data">
                   <span className={getResultBadge(log.result)}>{log.result}</span>
+                </td>
+                <td className="table-cell table-data">
+                  {getStatusBadge(log.result)}
                 </td>
                 <td className="table-cell table-data table-data-muted user-cell">
                   <div className="user-info">
@@ -208,7 +267,10 @@ const ActivityLog = ({ logs }) => {
         
         {filteredLogs.length === 0 && (
           <div className="empty-state">
-            No transactions found matching your criteria.
+            {backendConnected 
+              ? "No transactions found matching your criteria."
+              : "No local transactions. Connect to backend to sync data."
+            }
           </div>
         )}
       </div>
