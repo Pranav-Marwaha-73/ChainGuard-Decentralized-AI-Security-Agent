@@ -10,23 +10,25 @@ import Charts from './components/Charts';
 import LoginModal from './components/LoginModal';
 import ThreatAlert from './components/ThreatAlert';
 import SecurityNotification from './components/SecurityNotification';
+import About from './components/About';
 import { initAuth, login, logout, isAuthenticated, getPrincipal } from './auth';
 import backendService from './services/backendService';
 import './styles/global.css';
 import './App.css';
-
 const App = () => {
   const [result, setResult] = useState('');
   const [logs, setLogs] = useState([]);
   const [stats, setStats] = useState({ Safe: 0, Malicious: 0 });
   const [darkMode, setDarkMode] = useState(false);
-  const [endpoint, setEndpoint] = useState('https://b724f1d8e7aa.ngrok-free.app/predict/');
+  const [themeMode, setThemeMode] = useState('light'); // 'light', 'dark', 'advanced'
+  const [endpoint, setEndpoint] = useState('https://beade951d8b2.ngrok-free.app/predict/');
   const [userPrincipal, setUserPrincipal] = useState(null);
   const [authClient, setAuthClient] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState('');
+  const [currentView, setCurrentView] = useState('dashboard');
   
   // Enhanced security states
   const [showThreatAlert, setShowThreatAlert] = useState(false);
@@ -94,12 +96,16 @@ const App = () => {
 
   useEffect(() => {
     const root = document.documentElement;
-    if (darkMode) {
+    root.classList.remove('light', 'dark', 'advanced');
+    root.classList.add(themeMode);
+    
+    // Keep backward compatibility
+    if (themeMode === 'dark' || themeMode === 'advanced') {
       root.classList.add('dark');
     } else {
       root.classList.remove('dark');
     }
-  }, [darkMode]);
+  }, [themeMode]);
 
   const showNotification = (type, message) => {
     setNotification({ show: true, type, message });
@@ -203,6 +209,7 @@ const App = () => {
       setResult('');
       setBlockedTransactions(0);
       setShowDashboard(false);
+      setCurrentView('dashboard');
       showNotification('success', 'Successfully logged out');
     } catch (error) {
       console.error('Logout failed:', error);
@@ -300,7 +307,7 @@ const App = () => {
           // Play alert sound (optional)
           try {
             const audio = new Audio('/alert.mp3');
-            audio.play().catch(() => {}); // Ignore if audio fails
+            audio.play().catch(() => {});
           } catch (e) {
             // Audio not supported or blocked
           }
@@ -322,9 +329,21 @@ const App = () => {
     }
   };
 
-  const toggleDarkMode = () => {
-    setDarkMode(prevMode => !prevMode);
-    showNotification('info', `Switched to ${!darkMode ? 'dark' : 'light'} mode`);
+  const toggleTheme = () => {
+    const modes = ['light', 'dark', 'advanced'];
+    const currentIndex = modes.indexOf(themeMode);
+    const nextIndex = (currentIndex + 1) % modes.length;
+    const nextMode = modes[nextIndex];
+    
+    setThemeMode(nextMode);
+    
+    const modeNames = {
+      light: '☀️ Light Mode',
+      dark: '🌙 Dark Mode', 
+      advanced: '🚀 Advanced Mode'
+    };
+    
+    showNotification('success', `Switched to ${modeNames[nextMode]}! ${nextMode === 'advanced' ? 'Welcome to the future! 🔥' : ''}`);
   };
 
   const refreshBackendConnection = async () => {
@@ -353,6 +372,11 @@ const App = () => {
   const totalTransactions = stats.Safe + stats.Malicious;
   const safePercentage = totalTransactions > 0 ? Math.round((stats.Safe / totalTransactions) * 100) : 0;
 
+  const handleViewChange = (view) => {
+    setCurrentView(view);
+    showNotification('info', `Switched to ${view === 'dashboard' ? 'Dashboard' : 'About'} view`);
+  };
+
   // Show login page if user is not authenticated
   if (!showDashboard) {
     return (
@@ -368,15 +392,18 @@ const App = () => {
     <div className="app">
       <Header
         userPrincipal={userPrincipal}
-        darkMode={darkMode}
-        onToggleDarkMode={toggleDarkMode}
+        themeMode={themeMode}
+        onToggleTheme={toggleTheme}
         onLogout={handleLogout}
         onLogin={() => setShowLoginModal(true)}
         backendConnected={backendConnected}
         onRefreshBackend={refreshBackendConnection}
+        currentView={currentView}
+        onViewChange={handleViewChange}
       />
 
-      <main className="main-content">
+      {currentView === 'dashboard' && (
+        <main className="main-content">
         {/* Hero Section */}
         <div className="hero-section">
           <div className="hero-card">
@@ -451,7 +478,10 @@ const App = () => {
             />
           </div>
         </div>
-      </main>
+        </main>
+      )}
+
+      {currentView === 'about' && <About />}
 
       {/* Modals and Alerts */}
       <LoginModal

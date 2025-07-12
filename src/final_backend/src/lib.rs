@@ -46,7 +46,7 @@ async fn predict_transaction(action: String, value: f32) -> String {
     };
 
     let request = CanisterHttpRequestArgument {
-        url: "https://b724f1d8e7aa.ngrok-free.app/predict/".to_string(),
+        url: "https://beade951d8b2.ngrok-free.app/predict/".to_string(),
         method: HttpMethod::POST,
         headers: vec![HttpHeader {
             name: "Content-Type".to_string(),

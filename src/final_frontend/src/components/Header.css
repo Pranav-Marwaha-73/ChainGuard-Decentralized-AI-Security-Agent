@@ -89,16 +89,20 @@
   color: #9ca3af;
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.nav-section {
+.header-nav {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border-radius: 0.75rem;
+  padding: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .header-nav {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .nav-button {
@@ -106,26 +110,33 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: none;
-  border: 1px solid transparent;
   border-radius: 0.5rem;
+  background: none;
+  border: none;
   color: #6b7280;
   font-weight: 500;
+  font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.2s;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  position: relative;
+  overflow: hidden;
 }
 
 .nav-button:hover {
-  background-color: #f3f4f6;
+  background-color: rgba(255, 255, 255, 0.1);
   color: #111827;
+  transform: translateY(-1px);
 }
 
-.nav-button.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.nav-button-active {
+  background: linear-gradient(135deg, #2563eb, #9333ea);
   color: white;
-  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.nav-button-active:hover {
+  background: linear-gradient(135deg, #1d4ed8, #7c3aed);
+  color: white;
 }
 
 .dark .nav-button {
@@ -133,13 +144,20 @@
 }
 
 .dark .nav-button:hover {
-  background-color: #374151;
+  background-color: rgba(255, 255, 255, 0.1);
   color: white;
 }
 
-.dark .nav-button.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+@media (max-width: 768px) {
+  .header-nav {
+    display: none;
+  }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .backend-status {
@@ -351,6 +369,18 @@
 
 .dark .theme-toggle:hover {
   background-color: #374151;
+}
+
+.advanced .theme-toggle {
+  background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+  color: white;
+  box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+}
+
+.advanced .theme-toggle:hover {
+  background: linear-gradient(135deg, #ee5a52 0%, #45b7d1 100%);
+  box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+  transform: translateY(-1px);
 }
 
 .icon-sm {

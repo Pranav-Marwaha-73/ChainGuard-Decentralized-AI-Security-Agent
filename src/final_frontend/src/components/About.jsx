@@ -1,563 +1,332 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Shield, Brain, Globe, Zap, Users, Code, Database, Cpu, BarChart3, Lock, CheckCircle, Star, Mail, Github, Linkedin, ArrowRight, Sparkles, Eye, Target, Layers, Rocket, Award, TrendingUp, Activity, Wifi, Server, Cloud, Hexagon } from 'lucide-react';
+import React from 'react';
+import { Shield, Brain, Globe, Users, Mail, Github, Code, Database, Zap, BarChart3, Star, Award, Rocket, Target } from 'lucide-react';
 import './About.css';
 
 const About = () => {
-  const [activeFeature, setActiveFeature] = useState(0);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isVisible, setIsVisible] = useState({});
-  const containerRef = useRef(null);
-
-  const features = [
-    {
-      icon: Brain,
-      title: "AI-Powered Detection",
-      description: "Advanced Random Forest Classifier with 92.3% accuracy for real-time threat detection and predictive analysis",
-      color: "#667eea",
-      gradient: "from-purple-500 to-blue-600",
-      stats: "92.3% Accuracy"
-    },
-    {
-      icon: Shield,
-      title: "Real-time Protection",
-      description: "Instant threat detection and automated countermeasures to protect your DApps with millisecond response times",
-      color: "#f093fb",
-      gradient: "from-pink-500 to-purple-600",
-      stats: "<100ms Response"
-    },
-    {
-      icon: Globe,
-      title: "Decentralized Security",
-      description: "Built on Internet Computer Protocol for trustless, transparent, and immutable security infrastructure",
-      color: "#4facfe",
-      gradient: "from-blue-500 to-cyan-500",
-      stats: "100% Decentralized"
-    },
-    {
-      icon: BarChart3,
-      title: "Advanced Analytics",
-      description: "Comprehensive transaction visualization, security insights dashboard, and predictive threat modeling",
-      color: "#00f2fe",
-      gradient: "from-cyan-500 to-teal-500",
-      stats: "Real-time Analytics"
-    }
-  ];
-
-  const techStack = [
-    { name: "React.js", description: "Modern UI Framework", icon: Code, color: "#61DAFB", category: "Frontend" },
-    { name: "Rust", description: "Backend Smart Contracts", icon: Database, color: "#CE422B", category: "Backend" },
-    { name: "Internet Computer", description: "Blockchain Platform", icon: Globe, color: "#29ABE2", category: "Blockchain" },
-    { name: "Machine Learning", description: "AI Security Engine", icon: Brain, color: "#FF6B6B", category: "AI/ML" },
-    { name: "Tailwind CSS", description: "Styling Framework", icon: Sparkles, color: "#06B6D4", category: "Frontend" },
-    { name: "Python", description: "ML Model Training", icon: Cpu, color: "#3776AB", category: "AI/ML" }
-  ];
-
-  const stats = [
-    { label: "AI Accuracy", value: "92.3%", icon: Brain, color: "#667eea" },
-    { label: "Response Time", value: "<100ms", icon: Zap, color: "#f093fb" },
-    { label: "Threats Blocked", value: "10K+", icon: Shield, color: "#4facfe" },
-    { label: "DApps Protected", value: "50+", icon: Globe, color: "#00f2fe" }
-  ];
-
-  const workflowSteps = [
-    {
-      number: "01",
-      title: "Transaction Analysis",
-      description: "Users submit transaction data through our intuitive dashboard. Our AI analyzes action and value parameters using advanced machine learning algorithms.",
-      icon: Eye,
-      color: "#667eea"
-    },
-    {
-      number: "02", 
-      title: "Threat Detection",
-      description: "The Random Forest Classifier processes the data and predicts whether the transaction is Safe or Malicious with industry-leading 92.3% accuracy.",
-      icon: Target,
-      color: "#f093fb"
-    },
-    {
-      number: "03",
-      title: "Automated Response",
-      description: "If malicious activity is detected, ChainGuard automatically triggers countermeasures, blocks the transaction, and alerts administrators in real-time.",
-      icon: Shield,
-      color: "#4facfe"
-    },
-    {
-      number: "04",
-      title: "Logging & Analytics",
-      description: "All transactions are logged in the decentralized backend with comprehensive analytics, security reporting, and threat intelligence.",
-      icon: BarChart3,
-      color: "#00f2fe"
-    }
-  ];
-
-  const teamMembers = [
-    {
-      name: "Pranav Marwaha",
-      role: "Lead Developer & AI Specialist",
-      email: "pranavmarwaha73@gmail.com",
-      description: "Full-stack developer specializing in blockchain security, machine learning, and decentralized systems architecture",
-      avatar: Users,
-      skills: ["React.js", "Machine Learning", "Blockchain", "Python"],
-      achievements: ["92.3% AI Accuracy", "Real-time Protection", "Decentralized Architecture"]
-    },
-    {
-      name: "Chinkal Patel",
-      role: "Co-Developer & Blockchain Engineer",
-      description: "Expert in smart contract development, Internet Computer Protocol, and decentralized security systems",
-      avatar: Code,
-      skills: ["Rust", "Smart Contracts", "ICP", "Security"],
-      achievements: ["Smart Contract Security", "Decentralized Backend", "Threat Countermeasures"]
-    }
-  ];
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setIsVisible(prev => ({
-            ...prev,
-            [entry.target.id]: entry.isIntersecting
-          }));
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const elements = document.querySelectorAll('[data-animate]');
-    elements.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveFeature((prev) => (prev + 1) % features.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div className="about-container" ref={containerRef}>
-      {/* Animated Background */}
-      <div className="cosmic-background">
-        <div className="stars"></div>
-        <div className="floating-shapes">
-          {[...Array(20)].map((_, i) => (
-            <div key={i} className={`shape shape-${i % 4}`}></div>
-          ))}
-        </div>
-        <div className="gradient-orbs">
-          <div className="orb orb-1"></div>
-          <div className="orb orb-2"></div>
-          <div className="orb orb-3"></div>
-          <div className="orb orb-4"></div>
-        </div>
-      </div>
-
-      {/* Mouse Follower */}
-      <div 
-        className="mouse-follower"
-        style={{
-          left: mousePosition.x,
-          top: mousePosition.y,
-        }}
-      ></div>
-
-      {/* Hero Section */}
-      <div className="hero-section" id="hero" data-animate>
-        <div className="hero-content">
-          <div className="hero-badge">
-            <Shield className="badge-icon" />
-            <span>ChainGuard AI</span>
-            <div className="badge-glow"></div>
-          </div>
-          
-          <h1 className="hero-title">
-            <span className="title-line">Decentralized AI</span>
-            <span className="title-line gradient-text">Security Agent</span>
-            <div className="title-decoration">
-              <Sparkles className="sparkle-1" />
-              <Sparkles className="sparkle-2" />
-              <Sparkles className="sparkle-3" />
+    <div className="about-container">
+      <div className="about-content">
+        {/* Enhanced Header with GitHub */}
+        <div className="about-header">
+          <div className="about-logo">
+            <div className="about-logo-bg">
+              <Shield className="about-logo-icon" />
+              <div className="logo-pulse"></div>
             </div>
+          </div>
+          <h1 className="about-title">
+            <span className="gradient-text">ChainGuard AI</span>
+            <div className="title-decoration"></div>
           </h1>
-          
-          <p className="hero-description">
-            Revolutionary real-time AI-powered security dashboard engineered to protect DApps 
-            on the Internet Computer. Leveraging cutting-edge machine learning to analyze 
-            blockchain transactions, predict sophisticated threats, and autonomously respond 
-            to malicious activity with unprecedented accuracy and speed.
+          <p className="about-subtitle">
+            🚀 Revolutionary Decentralized AI Security Agent protecting blockchain transactions with 
+            <span className="highlight-text"> 92.3% accuracy</span>
           </p>
           
-          <div className="hero-stats">
-            {stats.map((stat, index) => (
-              <div 
-                key={index} 
-                className="hero-stat"
-                style={{ '--stat-color': stat.color, '--delay': `${index * 0.2}s` }}
-              >
-                <div className="stat-icon">
-                  <stat.icon className="icon" />
-                  <div className="icon-pulse"></div>
-                </div>
-                <div className="stat-content">
-                  <div className="stat-value">{stat.value}</div>
-                  <div className="stat-label">{stat.label}</div>
-                </div>
-                <div className="stat-glow"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="hero-visual">
-          <div className="central-hub">
-            <div className="hub-core">
-              <Shield className="core-icon" />
-              <div className="core-pulse"></div>
-            </div>
-            <div className="orbit-ring ring-1">
-              {features.map((feature, index) => (
-                <div 
-                  key={index}
-                  className={`orbit-node ${index === activeFeature ? 'active' : ''}`}
-                  style={{ '--node-color': feature.color }}
-                >
-                  <feature.icon className="node-icon" />
-                </div>
-              ))}
-            </div>
-            <div className="orbit-ring ring-2">
-              {techStack.map((tech, index) => (
-                <div 
-                  key={index}
-                  className="orbit-node small"
-                  style={{ '--node-color': tech.color }}
-                >
-                  <tech.icon className="node-icon" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div className="features-section" id="features" data-animate>
-        <div className="section-header">
-          <div className="section-badge">
-            <Rocket className="badge-icon" />
-            <span>Core Features</span>
-          </div>
-          <h2 className="section-title">
-            Next-Generation Security
-            <span className="title-highlight">Capabilities</span>
-          </h2>
-          <p className="section-subtitle">
-            Advanced security capabilities powered by cutting-edge artificial intelligence 
-            and blockchain technology for unparalleled protection
-          </p>
-        </div>
-        
-        <div className="features-grid">
-          {features.map((feature, index) => (
-            <div 
-              key={index} 
-              className={`feature-card ${isVisible.features ? 'visible' : ''}`}
-              style={{ 
-                '--feature-color': feature.color,
-                '--delay': `${index * 0.2}s`
-              }}
-              onMouseEnter={() => setActiveFeature(index)}
+          {/* GitHub Stats */}
+          <div className="github-section">
+            <a 
+              href="https://github.com/Pranav-Marwaha-73" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="github-link"
             >
-              <div className="feature-header">
-                <div className="feature-icon">
-                  <feature.icon className="icon" />
-                  <div className="icon-glow"></div>
-                </div>
-                <div className="feature-stats">{feature.stats}</div>
-              </div>
-              
-              <div className="feature-content">
-                <h3 className="feature-title">{feature.title}</h3>
-                <p className="feature-description">{feature.description}</p>
-              </div>
-              
-              <div className="feature-footer">
-                <div className="feature-arrow">
-                  <ArrowRight className="arrow-icon" />
-                </div>
-              </div>
-              
-              <div className="feature-bg"></div>
-              <div className="feature-border"></div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Workflow Section */}
-      <div className="workflow-section" id="workflow" data-animate>
-        <div className="section-header">
-          <div className="section-badge">
-            <Activity className="badge-icon" />
-            <span>How It Works</span>
+              <Github className="github-icon" />
+              <span>@Pranav-Marwaha-73</span>
+              <div className="link-glow"></div>
+            </a>
           </div>
-          <h2 className="section-title">
-            Intelligent Security
-            <span className="title-highlight">Pipeline</span>
-          </h2>
-          <p className="section-subtitle">
-            A comprehensive four-stage security pipeline from detection to protection, 
-            engineered for maximum efficiency and reliability
-          </p>
         </div>
-        
-        <div className="workflow-container">
-          <div className="workflow-timeline">
-            {workflowSteps.map((step, index) => (
-              <div 
-                key={index}
-                className={`workflow-step ${isVisible.workflow ? 'visible' : ''}`}
-                style={{ 
-                  '--step-color': step.color,
-                  '--delay': `${index * 0.3}s`
-                }}
-              >
-                <div className="step-connector"></div>
-                <div className="step-node">
-                  <div className="step-number">{step.number}</div>
-                  <div className="step-icon">
-                    <step.icon className="icon" />
+
+        {/* Enhanced Sections */}
+        <div className="about-sections">
+          {/* Project Overview with enhanced styling */}
+          <section className="about-section featured-section">
+            <h2 className="section-header">
+              <Brain className="section-icon" />
+              🎯 Project Mission
+              <div className="header-line"></div>
+            </h2>
+            <div className="mission-content">
+              <div className="mission-card">
+                <div className="mission-icon">
+                  <Rocket className="mission-rocket" />
+                </div>
+                <div className="mission-text">
+                  <p className="section-text enhanced-text">
+                    ChainGuard AI represents the <strong>future of blockchain security</strong>. Built on the 
+                    Internet Computer Protocol, our revolutionary AI system doesn't just detect threats—it 
+                    <em>predicts and prevents them</em> before they can cause damage.
+                  </p>
+                  <div className="achievement-badges">
+                    <div className="badge badge-success">
+                      <Award className="badge-icon" />
+                      <span>92.3% AI Accuracy</span>
+                    </div>
+                    <div className="badge badge-primary">
+                      <Target className="badge-icon" />
+                      <span>Real-time Protection</span>
+                    </div>
+                    <div className="badge badge-warning">
+                      <Zap className="badge-icon" />
+                      <span>Instant Response</span>
+                    </div>
                   </div>
-                  <div className="node-pulse"></div>
-                </div>
-                <div className="step-content">
-                  <h3 className="step-title">{step.title}</h3>
-                  <p className="step-description">{step.description}</p>
-                </div>
-                <div className="step-glow"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Tech Stack Section */}
-      <div className="tech-section" id="tech" data-animate>
-        <div className="section-header">
-          <div className="section-badge">
-            <Layers className="badge-icon" />
-            <span>Technology Stack</span>
-          </div>
-          <h2 className="section-title">
-            Cutting-Edge
-            <span className="title-highlight">Technologies</span>
-          </h2>
-          <p className="section-subtitle">
-            Built with modern, enterprise-grade technologies for maximum security, 
-            performance, and scalability
-          </p>
-        </div>
-        
-        <div className="tech-grid">
-          {techStack.map((tech, index) => (
-            <div 
-              key={index}
-              className={`tech-card ${isVisible.tech ? 'visible' : ''}`}
-              style={{ 
-                '--tech-color': tech.color,
-                '--delay': `${index * 0.15}s`
-              }}
-            >
-              <div className="tech-header">
-                <div className="tech-icon">
-                  <tech.icon className="icon" />
-                  <div className="icon-orbit"></div>
-                </div>
-                <div className="tech-category">{tech.category}</div>
-              </div>
-              
-              <div className="tech-content">
-                <h3 className="tech-name">{tech.name}</h3>
-                <p className="tech-description">{tech.description}</p>
-              </div>
-              
-              <div className="tech-effects">
-                <div className="tech-glow"></div>
-                <div className="tech-particles">
-                  {[...Array(6)].map((_, i) => (
-                    <div key={i} className="particle"></div>
-                  ))}
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
+          </section>
 
-      {/* Team Section */}
-      <div className="team-section" id="team" data-animate>
-        <div className="section-header">
-          <div className="section-badge">
-            <Award className="badge-icon" />
-            <span>Meet the Team</span>
-          </div>
-          <h2 className="section-title">
-            Brilliant Minds Behind
-            <span className="title-highlight">ChainGuard</span>
-          </h2>
-          <p className="section-subtitle">
-            The innovative team of experts who architected and developed 
-            ChainGuard's revolutionary security solutions
-          </p>
-        </div>
-        
-        <div className="team-grid">
-          {teamMembers.map((member, index) => (
-            <div 
-              key={index}
-              className={`team-card ${isVisible.team ? 'visible' : ''}`}
-              style={{ '--delay': `${index * 0.3}s` }}
-            >
-              <div className="member-header">
-                <div className="member-avatar">
-                  <member.avatar className="avatar-icon" />
-                  <div className="avatar-glow"></div>
-                  <div className="avatar-ring"></div>
+          {/* Enhanced Key Features */}
+          <section className="about-section">
+            <h2 className="section-header">
+              <Zap className="section-icon" />
+              ⚡ Revolutionary Features
+              <div className="header-line"></div>
+            </h2>
+            <div className="features-grid enhanced-grid">
+              <div className="feature-item enhanced-feature">
+                <div className="feature-icon-bg feature-icon-bg-green">
+                  <Brain className="feature-icon feature-icon-green" />
+                  <div className="icon-pulse green"></div>
+                </div>
+                <div className="feature-content">
+                  <h3 className="feature-title">🧠 AI-Powered Detection</h3>
+                  <p className="feature-description">
+                    Advanced Random Forest Classifier with <strong>92.3% accuracy</strong> - 
+                    the highest in the industry for real-time blockchain threat detection
+                  </p>
+                  <div className="feature-stats">
+                    <span className="stat-chip">Machine Learning</span>
+                    <span className="stat-chip">Real-time</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="feature-item enhanced-feature">
+                <div className="feature-icon-bg feature-icon-bg-blue">
+                  <Shield className="feature-icon feature-icon-blue" />
+                  <div className="icon-pulse blue"></div>
+                </div>
+                <div className="feature-content">
+                  <h3 className="feature-title">🛡️ Quantum-Level Security</h3>
+                  <p className="feature-description">
+                    Instant threat detection with automatic countermeasures. 
+                    Our system responds in <strong>&lt;100ms</strong> to block malicious transactions
+                  </p>
+                  <div className="feature-stats">
+                    <span className="stat-chip">Auto-Block</span>
+                    <span className="stat-chip">Instant</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="feature-item enhanced-feature">
+                <div className="feature-icon-bg feature-icon-bg-purple">
+                  <Globe className="feature-icon feature-icon-purple" />
+                  <div className="icon-pulse purple"></div>
+                </div>
+                <div className="feature-content">
+                  <h3 className="feature-title">🌐 Decentralized Architecture</h3>
+                  <p className="feature-description">
+                    Built on Internet Computer Protocol for maximum security, 
+                    transparency, and <strong>100% uptime</strong> guarantee
+                  </p>
+                  <div className="feature-stats">
+                    <span className="stat-chip">ICP Powered</span>
+                    <span className="stat-chip">24/7</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="feature-item enhanced-feature">
+                <div className="feature-icon-bg feature-icon-bg-orange">
+                  <BarChart3 className="feature-icon feature-icon-orange" />
+                  <div className="icon-pulse orange"></div>
+                </div>
+                <div className="feature-content">
+                  <h3 className="feature-title">📊 Advanced Analytics</h3>
+                  <p className="feature-description">
+                    Comprehensive transaction visualization with predictive analytics 
+                    and <strong>real-time threat intelligence</strong>
+                  </p>
+                  <div className="feature-stats">
+                    <span className="stat-chip">Predictive</span>
+                    <span className="stat-chip">Visual</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Enhanced Technology Stack */}
+          <section className="about-section">
+            <h2 className="section-header">
+              <Code className="section-icon" />
+              🔧 Cutting-Edge Tech Stack
+              <div className="header-line"></div>
+            </h2>
+            <div className="tech-grid enhanced-tech">
+              {[
+                { name: 'React.js', category: 'Frontend', level: 'Expert', color: '#61DAFB' },
+                { name: 'Rust', category: 'Backend', level: 'Advanced', color: '#CE422B' },
+                { name: 'Internet Computer', category: 'Blockchain', level: 'Expert', color: '#29ABE2' },
+                { name: 'Machine Learning', category: 'AI/ML', level: 'Expert', color: '#FF6B6B' },
+                { name: 'Tailwind CSS', category: 'Styling', level: 'Expert', color: '#06B6D4' },
+                { name: 'Python', category: 'Data Science', level: 'Advanced', color: '#3776AB' }
+              ].map((tech, index) => (
+                <div key={index} className="tech-item enhanced-tech-item">
+                  <div className="tech-header">
+                    <div 
+                      className="tech-dot" 
+                      style={{ backgroundColor: tech.color }}
+                    ></div>
+                    <div className="tech-name">{tech.name}</div>
+                  </div>
+                  <div className="tech-category">{tech.category}</div>
+                  <div className="tech-level">{tech.level}</div>
+                  <div className="tech-glow" style={{ backgroundColor: `${tech.color}20` }}></div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Enhanced Team */}
+          <section className="about-section">
+            <h2 className="section-header">
+              <Users className="section-icon" />
+              👥 Elite Development Team
+              <div className="header-line"></div>
+            </h2>
+            <div className="team-grid enhanced-team">
+              <div className="team-member enhanced-member">
+                <div className="member-avatar member-avatar-blue">
+                  <Users className="member-icon" />
+                  <div className="avatar-glow blue"></div>
                 </div>
                 <div className="member-info">
-                  <h3 className="member-name">{member.name}</h3>
-                  <p className="member-role">{member.role}</p>
+                  <h3 className="member-name">Pranav Marwaha</h3>
+                  <p className="member-role">🚀 Lead Developer & AI Architect</p>
+                  <div className="member-skills">
+                    <span className="skill-tag">AI/ML Expert</span>
+                    <span className="skill-tag">Blockchain</span>
+                    <span className="skill-tag">Full-Stack</span>
+                  </div>
+                  <div className="member-links">
+                    <a 
+                      href="mailto:pranavmarwaha73@gmail.com" 
+                      className="member-email"
+                    >
+                      <Mail className="link-icon" />
+                      pranavmarwaha73@gmail.com
+                    </a>
+                    <a 
+                      href="https://github.com/Pranav-Marwaha-73" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="member-github"
+                    >
+                      <Github className="link-icon" />
+                      GitHub Profile
+                    </a>
+                  </div>
                 </div>
               </div>
               
-              <p className="member-description">{member.description}</p>
-              
-              <div className="member-skills">
-                <h4 className="skills-title">Expertise</h4>
-                <div className="skills-list">
-                  {member.skills.map((skill, skillIndex) => (
-                    <span key={skillIndex} className="skill-tag">{skill}</span>
-                  ))}
+              <div className="team-member enhanced-member">
+                <div className="member-avatar member-avatar-purple">
+                  <Code className="member-icon" />
+                  <div className="avatar-glow purple"></div>
+                </div>
+                <div className="member-info">
+                  <h3 className="member-name">Chinkal Patel</h3>
+                  <p className="member-role">🔒 Co-Developer & Security Engineer</p>
+                  <div className="member-skills">
+                    <span className="skill-tag">Security</span>
+                    <span className="skill-tag">Backend</span>
+                    <span className="skill-tag">DevOps</span>
+                  </div>
                 </div>
               </div>
-              
-              <div className="member-achievements">
-                <h4 className="achievements-title">Key Contributions</h4>
-                <div className="achievements-list">
-                  {member.achievements.map((achievement, achIndex) => (
-                    <div key={achIndex} className="achievement-item">
-                      <CheckCircle className="check-icon" />
-                      <span>{achievement}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              {member.email && (
-                <div className="member-contact">
-                  <a href={`mailto:${member.email}`} className="contact-button">
-                    <Mail className="contact-icon" />
-                    <span>Get in Touch</span>
-                    <ArrowRight className="arrow-icon" />
-                  </a>
-                </div>
-              )}
-              
-              <div className="card-glow"></div>
             </div>
-          ))}
-        </div>
-      </div>
+          </section>
 
-      {/* Contact Section */}
-      <div className="contact-section" id="contact" data-animate>
-        <div className="contact-container">
-          <div className="contact-visual">
-            <div className="contact-hub">
-              <div className="hub-center">
-                <Mail className="center-icon" />
-                <div className="center-pulse"></div>
+          {/* Enhanced Statistics */}
+          <section className="about-section stats-showcase">
+            <h2 className="section-header">
+              <Database className="section-icon" />
+              📈 Impressive Statistics
+              <div className="header-line"></div>
+            </h2>
+            <div className="stats-grid enhanced-stats">
+              <div className="stat-item enhanced-stat">
+                <div className="stat-icon stat-icon-blue">
+                  <Brain className="stat-icon-inner" />
+                </div>
+                <div className="stat-value stat-value-blue">92.3%</div>
+                <div className="stat-label">AI Accuracy Rate</div>
+                <div className="stat-description">Industry Leading</div>
               </div>
-              <div className="connection-lines">
-                {[...Array(8)].map((_, i) => (
-                  <div key={i} className={`connection-line line-${i}`}></div>
-                ))}
+              <div className="stat-item enhanced-stat">
+                <div className="stat-icon stat-icon-green">
+                  <Shield className="stat-icon-inner" />
+                </div>
+                <div className="stat-value stat-value-green">100%</div>
+                <div className="stat-label">Decentralized</div>
+                <div className="stat-description">Zero Downtime</div>
+              </div>
+              <div className="stat-item enhanced-stat">
+                <div className="stat-icon stat-icon-purple">
+                  <Zap className="stat-icon-inner" />
+                </div>
+                <div className="stat-value stat-value-purple">&lt;100ms</div>
+                <div className="stat-label">Response Time</div>
+                <div className="stat-description">Lightning Fast</div>
+              </div>
+              <div className="stat-item enhanced-stat">
+                <div className="stat-icon stat-icon-orange">
+                  <Target className="stat-icon-inner" />
+                </div>
+                <div className="stat-value stat-value-orange">24/7</div>
+                <div className="stat-label">Protection</div>
+                <div className="stat-description">Always Active</div>
               </div>
             </div>
-          </div>
-          
-          <div className="contact-content">
-            <div className="contact-header">
-              <div className="section-badge">
-                <Mail className="badge-icon" />
-                <span>Get in Touch</span>
-              </div>
-              <h2 className="contact-title">
-                Ready to Secure Your
-                <span className="title-highlight">DApp?</span>
-              </h2>
-              <p className="contact-subtitle">
-                Have questions about ChainGuard? Want to integrate our AI security 
-                solutions? We'd love to discuss how we can protect your blockchain applications.
+          </section>
+
+          {/* Enhanced Contact */}
+          <section className="about-section contact-showcase">
+            <h2 className="section-header">
+              <Mail className="section-icon" />
+              🤝 Let's Connect & Collaborate
+              <div className="header-line"></div>
+            </h2>
+            <div className="contact-section">
+              <p className="contact-text">
+                Ready to revolutionize blockchain security? Join our mission to make DeFi safer for everyone!
               </p>
-            </div>
-            
-            <div className="contact-info">
-              <div className="contact-item">
-                <div className="item-icon">
-                  <Mail className="icon" />
-                </div>
-                <div className="item-content">
-                  <span className="item-label">Direct Contact</span>
-                  <a href="mailto:pranavmarwaha73@gmail.com" className="item-value">
-                    pranavmarwaha73@gmail.com
-                  </a>
-                </div>
-              </div>
-              
-              <div className="contact-item">
-                <div className="item-icon">
-                  <Shield className="icon" />
-                </div>
-                <div className="item-content">
-                  <span className="item-label">Project</span>
-                  <span className="item-value">ChainGuard AI Security</span>
-                </div>
-              </div>
-              
-              <div className="contact-item">
-                <div className="item-icon">
-                  <Globe className="icon" />
-                </div>
-                <div className="item-content">
-                  <span className="item-label">Platform</span>
-                  <span className="item-value">Internet Computer Protocol</span>
-                </div>
+              <div className="contact-buttons">
+                <a 
+                  href="mailto:pranavmarwaha73@gmail.com"
+                  className="contact-button contact-button-primary"
+                >
+                  <Mail className="contact-icon" />
+                  <span>Email Collaboration</span>
+                  <div className="button-glow"></div>
+                </a>
+                <a 
+                  href="https://github.com/Pranav-Marwaha-73"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="contact-button contact-button-secondary"
+                >
+                  <Github className="contact-icon" />
+                  <span>GitHub Projects</span>
+                  <div className="button-glow"></div>
+                </a>
               </div>
             </div>
-            
-            <div className="contact-cta">
-              <a href="mailto:pranavmarwaha73@gmail.com" className="cta-button">
-                <div className="button-content">
-                  <Mail className="button-icon" />
-                  <span>Start Conversation</span>
-                  <ArrowRight className="arrow-icon" />
-                </div>
-                <div className="button-glow"></div>
-              </a>
-            </div>
-          </div>
+          </section>
         </div>
       </div>
     </div>
