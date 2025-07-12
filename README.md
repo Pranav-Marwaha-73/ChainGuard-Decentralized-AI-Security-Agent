@@ -75,7 +75,7 @@ If the transaction is detected as **Malicious**:
 | 📦 Model         | Random Forest Classifier               |
 | 🏷️ Task         | Binary Classification (Safe / Malicious) |
 | 📊 Accuracy      | 92.3%                                  |
-| 📁 Deployment    | RESTful API via Flask / FastAPI        |
+| 📁 Deployment    |  FastAPI                               |
 | 🔗 Integration   | Called via HTTP from ICP backend       |
 
 ---
@@ -109,12 +109,6 @@ If the transaction is detected as **Malicious**:
 - **Internet Identity**
   - Decentralized authentication via NNS Wallet
   - Ensures secure and tamper-proof login
-
----
-
-## 🖼️ Screenshots
-
-> Add screenshots of your dashboard UI, charts, and logs here!
 
 ---
 
