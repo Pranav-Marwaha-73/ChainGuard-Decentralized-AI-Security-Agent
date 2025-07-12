@@ -9,7 +9,7 @@
 <h1>Dashboard</h1>
 <img width="1919" height="881" alt="Screenshot 2025-07-12 095757" src="https://github.com/user-attachments/assets/e8ac1852-e5a1-4794-941d-156cdf537345" />
 
-<h1>Dark them</h1>
+<h1>Dark theme</h1>
 <img width="1919" height="881" alt="Screenshot 2025-07-12 095807" src="https://github.com/user-attachments/assets/7555f200-648b-4bc1-aaa2-18580b4ded6e" />
 <img width="1919" height="913" alt="Screenshot 2025-07-12 095817" src="https://github.com/user-attachments/assets/7a8cd91b-6457-4469-98c2-7c62b5dfd37d" />
 
