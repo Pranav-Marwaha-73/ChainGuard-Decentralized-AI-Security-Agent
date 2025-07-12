@@ -1,4 +1,4 @@
-# `Screenshots of ChainGuard-Decentralized-AI-Security-Agent
+# `ChainGuard-Decentralized-AI-Security-Agent
 <br>
 <h1>Logging Page</h1>
 <img width="1919" height="881" alt="Screenshot 2025-07-12 100134" src="https://github.com/user-attachments/assets/9f78b6db-fe3f-406e-b9ea-11cd7b2675d6" />
