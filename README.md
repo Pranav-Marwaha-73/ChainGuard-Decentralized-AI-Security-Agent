@@ -1,4 +1,9 @@
-# `final`
+# `Screenshots of ChainGuard-Decentralized-AI-Security-Agent
+<br>
+<h1>Logging Page</h1>
+`<img width="1919" height="881" alt="Screenshot <img width="1917" height="913" alt="Screenshot 2025-07-12 100145" src="https://github.com/user-attachments/assets/7cc86832-3b25-4230-b450-7ca95d757e36" />
+2025-07-12 100134" src="https://github.com/user-attachments/assets/3a691b17-d705-48a1-b5ba-53cc111a74c8" />
+
 
 Welcome to your new `final` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
 
