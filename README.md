@@ -27,82 +27,120 @@
 <img width="1918" height="911" alt="Screenshot 2025-07-12 100106" src="https://github.com/user-attachments/assets/c3f2a26f-6888-4c0f-8c0d-b203d0fc5f4c" />
 
 
-📘 Project Description:
-ChainGuard is a real-time AI-powered security dashboard built to protect DApps running on the Internet Computer (ICP). It leverages a machine learning model to analyze blockchain transaction data, predict potential threats, and automatically respond to malicious activity—ensuring trust, security, and transparency.
+# 🛡️ ChainGuard: Decentralized AI Security Agent
 
-⚙️ How It Works:
-Transaction Prediction:
-Users submit transaction data (action, value) through the dashboard. The app sends this data to an AI-based prediction API, which classifies the transaction as either Safe or Malicious.
+> **ChainGuard** is a real-time **AI-powered security dashboard** built to protect decentralized applications (DApps) running on the **Internet Computer (ICP)**. It leverages a machine learning model to analyze blockchain transaction data, predict potential threats, and automatically respond to malicious activity—ensuring **trust**, **security**, and **transparency** for your DApp ecosystem.
 
-Threat Detection & Countermeasures:
+---
 
-If the transaction is malicious:
+## 📘 Project Overview
 
-A threat alert is triggered
+ChainGuard acts as a decentralized AI security layer that:
+- 🚨 Detects malicious transactions in real-time
+- 🔄 Automatically triggers countermeasures
+- 📊 Visualizes activity logs and analytics
+- 🔐 Uses decentralized identity for authentication
 
-A security notification sound is played
+---
 
-The transaction is blocked/reverted
+## ⚙️ How It Works
 
-Admins are alerted in real time
+### 🔍 Transaction Prediction
+- Users (or DApps) submit **transaction data** (`action`, `value`) via the dashboard.
+- This data is sent to an **AI-based prediction API**, which classifies it as `Safe` or `Malicious`.
 
-Logging and Visualization:
+### 🧠 Threat Detection & Countermeasures
+If the transaction is detected as **Malicious**:
+- 🚨 An alert is triggered
+- 🔊 A notification sound plays
+- 🚫 The transaction is blocked or reverted
+- 👮 Admins are notified in real time
 
-All transactions are logged in a decentralized backend (ICP canister)
+### 📈 Logging & Visualization
+- All transaction records are **stored in a decentralized backend** (ICP canister)
+- A user-friendly dashboard shows:
+  - ✅ Status of each transaction
+  - 📊 Pie charts & cards
+  - 📜 A complete activity log
 
-The dashboard displays real-time analytics using pie charts, statistics cards, and a detailed activity log
+### 🔐 User Authentication
+- Uses **Internet Identity** (NNS DApp Wallet) for decentralized, secure authentication
 
-User Authentication:
+---
 
-Uses Internet Identity (NNS DApp Wallet) for decentralized user authentication
+## 🤖 Machine Learning Model
 
-🤖 Machine Learning Model:
-The AI model is built using Random Forest Classifier
+| 🔬 Component     | Description                            |
+|------------------|----------------------------------------|
+| 📦 Model         | Random Forest Classifier               |
+| 🏷️ Task         | Binary Classification (Safe / Malicious) |
+| 📊 Accuracy      | 92.3%                                  |
+| 📁 Deployment    | RESTful API via Flask / FastAPI        |
+| 🔗 Integration   | Called via HTTP from ICP backend       |
 
-Trained on labeled blockchain transaction data
+---
 
-Achieved a high accuracy of 92.3%
+## 🧱 Tech Stack
 
-Deployed as an external API which the ICP backend calls using secure HTTP requests
+### 🔵 Frontend (Web Dashboard)
+- `React.js` + `Vite` – Modern and fast UI
+- `Tailwind CSS` – Utility-first styling
+- `Recharts` – Transaction analytics & visualizations
+- `Lucide Icons` – Crisp icons
+- `Axios` – API interaction
+- `Streamlit` (optional) – UI prototyping for ML visualization
 
-🧱 Tech Stack Used:
-🔵 Frontend (Web Dashboard):
-React.js + Vite (Modern, fast UI)
+### 🟠 Backend (Smart Contract - Canister)
+- `Rust` on Internet Computer (ICP)
+- `ic-cdk`, `candid`, `serde`, `serde_json`
+- Functions:
+  - Transaction classification
+  - Logging to stable memory
+  - HTTP calls to ML API
+  - Triggering countermeasures
 
-Tailwind CSS for styling
+### 🤖 AI/ML
+- `Python` (Scikit-learn, Pandas)
+- `Random Forest Classifier`
+- 92.3% validation accuracy
+- RESTful API server (via Flask or FastAPI)
 
-Recharts for visualization
+### 🔐 Authentication
+- **Internet Identity**
+  - Decentralized authentication via NNS Wallet
+  - Ensures secure and tamper-proof login
 
-Lucide Icons
+---
 
-Streamlit (optional) for prototyping UI
+## 🖼️ Screenshots
 
-Axios for API calls
+> Add screenshots of your dashboard UI, charts, and logs here!
 
-🟠 Backend (Smart Contract):
-Rust on Internet Computer (ICP)
+---
 
-ic-cdk, candid, serde, serde_json
+## 🚀 Future Enhancements
+- 🔄 Real-time integration with production DApps
+- 🧪 Continuous learning on new blockchain threats
+- 📱 Mobile-compatible UI
+- 📤 Exportable threat reports
 
-Features:
+---
 
-Transaction analysis and logging
+## 🧑‍💻 Developed By
 
-HTTP calls to external AI service
+### Pranav Marwaha
+- Lead Developer & AI Specialist  
+- 📧 [pranavmarwaha73@gmail.com](mailto:pranavmarwaha73@gmail.com)
 
-Threat countermeasures logic
+### Chinkal Patel
+- Co-Developer & Blockchain Engineer
 
-Secure persistent state via stable memory
+--chinkal2003patel@gmail.com
 
-🧠 AI/ML:
-Random Forest Classifier
+## 📄 License
+MIT License. See `LICENSE` file for details.
 
-92.3% accuracy
+---
 
-Deployed as a RESTful API (via Flask or FastAPI)
-
-Used for binary classification (Safe / Malicious)
-
-🔐 Authentication:
-Internet Identity (NNS DApp Wallet)
+> **ChainGuard** – Defending DApps with decentralized AI.
 
