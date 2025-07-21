@@ -136,5 +136,16 @@ MIT License. See `LICENSE` file for details.
 
 ---
 
-> **ChainGuard** – Defending DApps with decentralized AI.
-
+> **ChainGuard** – Defending DApps with decentralized AI. <br>
+<h3>SetUp Guide</h3>
+1 first run: $ cd ~/myproject/final/ml_api<br>
+2 then activate virtual env by running this:- $ source venv/bin/activate<br>
+3 Then in env run this:- $ uvicorn ml_api:app --reload --port 8000<br>
+4 Now open new terminal and run this new command: ngrok http 8000<br>
+5 open this port then copy the url for api<br>
+6 Now in lib.rs file change the url: copied_api_url/predict/<br>
+7 Now run lib.rs: dfx start --clean --background   ,after that run: dfx deploy<br>
+8 Now copy Canister_id By clicking on backend link.<br>
+9 Paste your Canister_id in backendService.js<br>
+10 Last step to update the usestate in App.jsx with your url: copied_api_url/predict/<br>
+11 Now run App.jsx by: npm run start
