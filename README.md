@@ -12,6 +12,7 @@ ChainGuard acts as a decentralized AI security layer that:
 - 📊 Visualizes activity logs and analytics
 - 🔐 Uses decentralized identity for authentication
 
+---
 
 ## ⚙️ How It Works
 
