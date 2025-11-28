@@ -1,4 +1,17 @@
-# `ChainGuard-Decentralized-AI-Security-Agent
+# 🛡️ ChainGuard: Decentralized AI Security Agent
+
+> **ChainGuard** is a real-time **AI-powered security dashboard** built to protect decentralized applications (DApps) running on the **Internet Computer (ICP)**. It leverages a machine learning model to analyze blockchain transaction data, predict potential threats, and automatically respond to malicious activity—ensuring **trust**, **security**, and **transparency** for your DApp ecosystem.
+
+---
+
+## 📘 Project Overview
+
+ChainGuard acts as a decentralized AI security layer that:
+- 🚨 Detects malicious transactions in real-time
+- 🔄 Automatically triggers countermeasures
+- 📊 Visualizes activity logs and analytics
+- 🔐 Uses decentralized identity for authentication
+
 <br>
 <h1>Logging Page</h1>
 <img width="1919" height="881" alt="Screenshot 2025-07-12 100134" src="https://github.com/user-attachments/assets/9f78b6db-fe3f-406e-b9ea-11cd7b2675d6" />
@@ -25,21 +38,6 @@
 <img width="1919" height="912" alt="Screenshot 2025-07-12 100047" src="https://github.com/user-attachments/assets/f4773771-c5c1-4709-b3ac-aed62df90e3b" />
 <img width="1919" height="915" alt="Screenshot 2025-07-12 100057" src="https://github.com/user-attachments/assets/0c729b73-a621-4086-836d-9a854480f28b" />
 <img width="1918" height="911" alt="Screenshot 2025-07-12 100106" src="https://github.com/user-attachments/assets/c3f2a26f-6888-4c0f-8c0d-b203d0fc5f4c" />
-
-
-# 🛡️ ChainGuard: Decentralized AI Security Agent
-
-> **ChainGuard** is a real-time **AI-powered security dashboard** built to protect decentralized applications (DApps) running on the **Internet Computer (ICP)**. It leverages a machine learning model to analyze blockchain transaction data, predict potential threats, and automatically respond to malicious activity—ensuring **trust**, **security**, and **transparency** for your DApp ecosystem.
-
----
-
-## 📘 Project Overview
-
-ChainGuard acts as a decentralized AI security layer that:
-- 🚨 Detects malicious transactions in real-time
-- 🔄 Automatically triggers countermeasures
-- 📊 Visualizes activity logs and analytics
-- 🔐 Uses decentralized identity for authentication
 
 ---
 
